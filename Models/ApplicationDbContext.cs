@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SilvarBayAPI.Authentication;
+using SilvarBayAPI.Models;
 
 namespace SilvarBayAPI.Models
 {
@@ -39,6 +40,7 @@ namespace SilvarBayAPI.Models
 
             base.OnModelCreating(builder);
         }
+        public DbSet<SilvarBayAPI.Models.BasicInfoModel> BasicInfoModel { get; set; }
 
 
     }

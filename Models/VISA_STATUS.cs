@@ -8,9 +8,5 @@ using System.Threading.Tasks;
 namespace SilvarBayAPI.Models
 {
     public enum VisaStatus  {OPT, CPT, H1B, GreenCard, Citizen};
-    public class VISA_STATUS_Model
-    {
-        public int VisaStatusId { get; set; }
-        public VisaStatus statusV { get; set; }
-    }
+    
 }
