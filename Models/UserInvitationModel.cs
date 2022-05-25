@@ -11,14 +11,10 @@ namespace SilvarBayAPI.Models
     public class UserInvitationModel
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
 
-        [ForeignKey("UserId")]
-        public string UserId { get; set; }
-
-        public virtual AppUser User { get; set; }
-
+        public virtual AspNetUser AUser { get; set; }
 
 
 

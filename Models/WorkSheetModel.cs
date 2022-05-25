@@ -19,12 +19,9 @@ namespace SilvarBayAPI.Models
         //foreignKey
         public int VendorId { get; set; }
 
-        [ForeignKey("UserId")]
-        public string UserId { get; set; }
+        
 
-        public virtual AppUser User { get; set; }
-
-
+        public virtual AspNetUser AUser { get; set; }
         public virtual VendorModel vendor { get; set; }
         //foreignkey
         public int RecruiterId { get; set; }

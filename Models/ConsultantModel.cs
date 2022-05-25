@@ -12,15 +12,14 @@ namespace SilvarBayAPI.Models
     public class ConsultantModel
     {
         [Key]
-        public int consultantId { get; set; }
+        public string consultantId { get; set; }
 
 
 
-        [ForeignKey("UserId")]
-        public string UserId { get; set; }
 
-        public virtual AppUser User { get; set; }
-
+        /*[ForeignKey("AspUserID")]
+        public string AspUserID { get; set; }*/
+        public virtual AspNetUser AUser { get; set; }
 
         public string Address { get; set; }
        

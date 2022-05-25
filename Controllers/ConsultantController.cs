@@ -31,7 +31,7 @@ namespace SilvarBayAPI.Controllers
 
         // GET: api/Consultant/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ConsultantModel>> GetConsultantModel(int id)
+        public async Task<ActionResult<ConsultantModel>> GetConsultantModel(string id)
         {
             var consultantModel = await _context.Consultants.FindAsync(id);
 
@@ -46,7 +46,7 @@ namespace SilvarBayAPI.Controllers
         // PUT: api/Consultant/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutConsultantModel(int id, ConsultantModel consultantModel)
+        public async Task<IActionResult> PutConsultantModel(string id, ConsultantModel consultantModel)
         {
             if (id != consultantModel.consultantId)
             {
@@ -87,7 +87,7 @@ namespace SilvarBayAPI.Controllers
 
         // DELETE: api/Consultant/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteConsultantModel(int id)
+        public async Task<IActionResult> DeleteConsultantModel(string id)
         {
             var consultantModel = await _context.Consultants.FindAsync(id);
             if (consultantModel == null)
@@ -101,7 +101,7 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        private bool ConsultantModelExists(int id)
+        private bool ConsultantModelExists(string id)
         {
             return _context.Consultants.Any(e => e.consultantId == id);
         }

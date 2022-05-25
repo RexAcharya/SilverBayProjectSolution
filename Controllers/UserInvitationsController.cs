@@ -46,7 +46,7 @@ namespace SilvarBayAPI.Controllers
         // PUT: api/UserInvitations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserInvitationModel(int id, UserInvitationModel userInvitationModel)
+        public async Task<IActionResult> PutUserInvitationModel(string id, UserInvitationModel userInvitationModel)
         {
             if (id != userInvitationModel.Id)
             {
@@ -87,7 +87,7 @@ namespace SilvarBayAPI.Controllers
 
         // DELETE: api/UserInvitations/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserInvitationModel(int id)
+        public async Task<IActionResult> DeleteUserInvitationModel(string id)
         {
             var userInvitationModel = await _context.UserInvitations.FindAsync(id);
             if (userInvitationModel == null)
@@ -101,7 +101,7 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        private bool UserInvitationModelExists(int id)
+        private bool UserInvitationModelExists(string id)
         {
             return _context.UserInvitations.Any(e => e.Id == id);
         }
