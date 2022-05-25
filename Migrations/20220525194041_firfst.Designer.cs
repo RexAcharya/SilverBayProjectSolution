@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SilvarBayAPI.Models;
 
 namespace SilvarBayAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220525194041_firfst")]
+    partial class firfst
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,7 +217,49 @@ namespace SilvarBayAPI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("SilvarBayAPI.Models.AppUser", b =>
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AspNetRole");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetRoleClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaim");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -264,7 +308,85 @@ namespace SilvarBayAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUser");
+                    b.ToTable("AspNetUser");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaim");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUserLogin", b =>
+                {
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ProviderKey", "LoginProvider");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogin");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUserRole", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRole");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUserToken", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "Name", "LoginProvider");
+
+                    b.ToTable("AspNetUserToken");
                 });
 
             modelBuilder.Entity("SilvarBayAPI.Models.ClientModel", b =>
@@ -540,6 +662,63 @@ namespace SilvarBayAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetRoleClaim", b =>
+                {
+                    b.HasOne("SilvarBayAPI.Models.AspNetRole", "Role")
+                        .WithMany("AspNetRoleClaims")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUserClaim", b =>
+                {
+                    b.HasOne("SilvarBayAPI.Models.AspNetUser", "User")
+                        .WithMany("AspNetUserClaims")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUserLogin", b =>
+                {
+                    b.HasOne("SilvarBayAPI.Models.AspNetUser", "User")
+                        .WithMany("AspNetUserLogins")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUserRole", b =>
+                {
+                    b.HasOne("SilvarBayAPI.Models.AspNetRole", "Role")
+                        .WithMany("AspNetUserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SilvarBayAPI.Models.AspNetUser", "User")
+                        .WithMany("AspNetUserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUserToken", b =>
+                {
+                    b.HasOne("SilvarBayAPI.Models.AspNetUser", "User")
+                        .WithMany("AspNetUserTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SilvarBayAPI.Models.Client_VendorModel", b =>
                 {
                     b.HasOne("SilvarBayAPI.Models.ClientModel", "client")
@@ -561,7 +740,7 @@ namespace SilvarBayAPI.Migrations
 
             modelBuilder.Entity("SilvarBayAPI.Models.ConsultantModel", b =>
                 {
-                    b.HasOne("SilvarBayAPI.Models.AppUser", "User")
+                    b.HasOne("SilvarBayAPI.Models.AspNetUser", "User")
                         .WithOne("Consultant")
                         .HasForeignKey("SilvarBayAPI.Models.ConsultantModel", "UserId");
 
@@ -580,7 +759,7 @@ namespace SilvarBayAPI.Migrations
 
             modelBuilder.Entity("SilvarBayAPI.Models.UserInvitationModel", b =>
                 {
-                    b.HasOne("SilvarBayAPI.Models.AppUser", "User")
+                    b.HasOne("SilvarBayAPI.Models.AspNetUser", "User")
                         .WithOne("userinvitation")
                         .HasForeignKey("SilvarBayAPI.Models.UserInvitationModel", "UserId");
 
@@ -601,7 +780,7 @@ namespace SilvarBayAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SilvarBayAPI.Models.AppUser", "User")
+                    b.HasOne("SilvarBayAPI.Models.AspNetUser", "User")
                         .WithOne("WorkSheet")
                         .HasForeignKey("SilvarBayAPI.Models.WorkSheetModel", "UserId");
 
@@ -620,8 +799,23 @@ namespace SilvarBayAPI.Migrations
                     b.Navigation("vendor");
                 });
 
-            modelBuilder.Entity("SilvarBayAPI.Models.AppUser", b =>
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetRole", b =>
                 {
+                    b.Navigation("AspNetRoleClaims");
+
+                    b.Navigation("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AspNetUser", b =>
+                {
+                    b.Navigation("AspNetUserClaims");
+
+                    b.Navigation("AspNetUserLogins");
+
+                    b.Navigation("AspNetUserRoles");
+
+                    b.Navigation("AspNetUserTokens");
+
                     b.Navigation("Consultant");
 
                     b.Navigation("userinvitation");

@@ -2,58 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SilvarBayAPI.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SilvarBayAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class VendorsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public UsersController(ApplicationDbContext context)
+        public VendorsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Vendors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetConsultants()
+        public async Task<ActionResult<IEnumerable<VendorModel>>> GetVendors()
         {
-            return await _context.Consultants.ToListAsync();
+            return await _context.Vendors.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Vendors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserModel>> GetUserModel(int id)
+        public async Task<ActionResult<VendorModel>> GetVendorModel(int id)
         {
-            var userModel = await _context.Consultants.FindAsync(id);
+            var vendorModel = await _context.Vendors.FindAsync(id);
 
-            if (userModel == null)
+            if (vendorModel == null)
             {
                 return NotFound();
             }
 
-            return userModel;
+            return vendorModel;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Vendors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserModel(int id, UserModel userModel)
+        public async Task<IActionResult> PutVendorModel(int id, VendorModel vendorModel)
         {
-            if (id != userModel.UserId)
+            if (id != vendorModel.VendorId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userModel).State = EntityState.Modified;
+            _context.Entry(vendorModel).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace SilvarBayAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserModelExists(id))
+                if (!VendorModelExists(id))
                 {
                     return NotFound();
                 }
@@ -74,36 +74,36 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Vendors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserModel>> PostUserModel(UserModel userModel)
+        public async Task<ActionResult<VendorModel>> PostVendorModel(VendorModel vendorModel)
         {
-            _context.Consultants.Add(userModel);
+            _context.Vendors.Add(vendorModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserModel", new { id = userModel.UserId }, userModel);
+            return CreatedAtAction("GetVendorModel", new { id = vendorModel.VendorId }, vendorModel);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Vendors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserModel(int id)
+        public async Task<IActionResult> DeleteVendorModel(int id)
         {
-            var userModel = await _context.Consultants.FindAsync(id);
-            if (userModel == null)
+            var vendorModel = await _context.Vendors.FindAsync(id);
+            if (vendorModel == null)
             {
                 return NotFound();
             }
 
-            _context.Consultants.Remove(userModel);
+            _context.Vendors.Remove(vendorModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserModelExists(int id)
+        private bool VendorModelExists(int id)
         {
-            return _context.Consultants.Any(e => e.UserId == id);
+            return _context.Vendors.Any(e => e.VendorId == id);
         }
     }
 }

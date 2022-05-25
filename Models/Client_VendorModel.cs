@@ -15,5 +15,9 @@ namespace SilvarBayAPI.Models
         public int ClientId { get; set; }
         [ForeignKey("VendorId")]
         public int VendorId { get; set; }
+        public virtual ClientModel client { get; set; }
+        public virtual VendorModel vendor { get; set; }
+
+        
     }
 }

@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Identity;
+
 namespace SilvarBayAPI.Models
 {
     public class WorkSheetModel
@@ -12,13 +14,24 @@ namespace SilvarBayAPI.Models
         [Key]
         public int WorkSheetId { get; set; }
         //foreignkey
-        public int UserId { get; set; }
+
+
         //foreignKey
         public int VendorId { get; set; }
+
+        [ForeignKey("UserId")]
+        public string UserId { get; set; }
+
+        public virtual AppUser User { get; set; }
+
+
+        public virtual VendorModel vendor { get; set; }
         //foreignkey
         public int RecruiterId { get; set; }
+        public virtual RecruiterModel recruiter { get; set; }
         //foreignKey
         public int ClientId { get; set; }
+        public virtual ClientModel client { get; set; }
         //foreignkey
         public JobLocation jobLocation { get; set; }
         //foreingkey

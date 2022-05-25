@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using SilvarBayAPI.Models;
+
 
 namespace SilvarBayAPI.Controllers
 {
@@ -24,14 +25,14 @@ namespace SilvarBayAPI.Controllers
 
         // GET: api/Clients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClientModelk>>> GetClients()
+        public async Task<ActionResult<IEnumerable<ClientModel>>> GetClients()
         {
             return await _context.Clients.ToListAsync();
         }
 
         // GET: api/Clients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClientModelk>> GetClientModelk(int id)
+        public async Task<ActionResult<ClientModel>> GetClientModelk(int id)
         {
             var clientModelk = await _context.Clients.FindAsync(id);
 
@@ -46,7 +47,7 @@ namespace SilvarBayAPI.Controllers
         // PUT: api/Clients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClientModelk(int id, ClientModelk clientModelk)
+        public async Task<IActionResult> PutClientModelk(int id, ClientModel clientModelk)
         {
             if (id != clientModelk.ClientId)
             {
@@ -77,7 +78,7 @@ namespace SilvarBayAPI.Controllers
         // POST: api/Clients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ClientModelk>> PostClientModelk(ClientModelk clientModelk)
+        public async Task<ActionResult<ClientModel>> PostClientModelk(ClientModel clientModelk)
         {
             _context.Clients.Add(clientModelk);
             await _context.SaveChangesAsync();

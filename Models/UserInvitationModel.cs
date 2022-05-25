@@ -13,6 +13,15 @@ namespace SilvarBayAPI.Models
         [Key]
         public int Id { get; set; }
 
+
+        [ForeignKey("UserId")]
+        public string UserId { get; set; }
+
+        public virtual AppUser User { get; set; }
+
+
+
+
         [Required(ErrorMessage = "Email is required")]
         [Column(TypeName = "nvarchar(100)")]
         public string Email { get; set; }

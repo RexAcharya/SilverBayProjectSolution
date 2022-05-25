@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SilvarBayAPI.Models
 {
-    public class VendorModel
+    public class VendorModel 
     {
         [Key]
         public int VendorId { get; set; }
@@ -26,7 +26,8 @@ namespace SilvarBayAPI.Models
         public string ContactNumber { get; set; }
 
 
-
-        
+        public virtual ICollection<RecruiterModel> RecruiterList { get; set; }
+        public virtual List<Client_VendorModel> cvlist { get; set; }
+        public virtual WorkSheetModel workSh { get; set; }
     }
 }

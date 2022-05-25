@@ -2,34 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SilvarBayAPI.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SilvarBayAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkSheetsController : ControllerBase
+    public class WorkSheetController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public WorkSheetsController(ApplicationDbContext context)
+        public WorkSheetController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/WorkSheets
+        // GET: api/WorkSheet
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WorkSheetModel>>> GetWorkSheets()
         {
             return await _context.WorkSheets.ToListAsync();
         }
 
-        // GET: api/WorkSheets/5
+        // GET: api/WorkSheet/5
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkSheetModel>> GetWorkSheetModel(int id)
         {
@@ -43,7 +43,7 @@ namespace SilvarBayAPI.Controllers
             return workSheetModel;
         }
 
-        // PUT: api/WorkSheets/5
+        // PUT: api/WorkSheet/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWorkSheetModel(int id, WorkSheetModel workSheetModel)
@@ -74,7 +74,7 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/WorkSheets
+        // POST: api/WorkSheet
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<WorkSheetModel>> PostWorkSheetModel(WorkSheetModel workSheetModel)
@@ -85,7 +85,7 @@ namespace SilvarBayAPI.Controllers
             return CreatedAtAction("GetWorkSheetModel", new { id = workSheetModel.WorkSheetId }, workSheetModel);
         }
 
-        // DELETE: api/WorkSheets/5
+        // DELETE: api/WorkSheet/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkSheetModel(int id)
         {

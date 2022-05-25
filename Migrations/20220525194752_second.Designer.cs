@@ -10,8 +10,8 @@ using SilvarBayAPI.Models;
 namespace SilvarBayAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220523201608_AddedNewController")]
-    partial class AddedNewController
+    [Migration("20220525194752_second")]
+    partial class second
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -217,9 +217,61 @@ namespace SilvarBayAPI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("SilvarBayAPI.Models.BasicInfoModel", b =>
+            modelBuilder.Entity("SilvarBayAPI.Models.AppUser", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppUser");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.ClientModel", b =>
+                {
+                    b.Property<int>("ClientId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -231,34 +283,15 @@ namespace SilvarBayAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmailAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("BasicInfoModel");
-                });
-
-            modelBuilder.Entity("SilvarBayAPI.Models.ClientModelk", b =>
-                {
-                    b.Property<int>("ClientId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ClientBasicInfoId")
-                        .HasColumnType("int");
-
                     b.HasKey("ClientId");
-
-                    b.HasIndex("ClientBasicInfoId");
 
                     b.ToTable("Clients");
                 });
@@ -278,25 +311,72 @@ namespace SilvarBayAPI.Migrations
 
                     b.HasKey("ClientVendorId");
 
-                    b.ToTable("ClientAndVedors");
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("ClientAndVendors");
                 });
 
-            modelBuilder.Entity("SilvarBayAPI.Models.Recruiter", b =>
+            modelBuilder.Entity("SilvarBayAPI.Models.ConsultantModel", b =>
+                {
+                    b.Property<int>("consultantId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GoogleVoiceNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("flagStat")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userPosition")
+                        .HasColumnType("int");
+
+                    b.HasKey("consultantId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Consultants");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.RecruiterModel", b =>
                 {
                     b.Property<int>("RecruiterId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("RecruiterBasicInfoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Vendor_ID")
+                    b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("VendorId")
+                        .HasColumnType("int");
 
                     b.HasKey("RecruiterId");
 
-                    b.HasIndex("RecruiterBasicInfoId");
+                    b.HasIndex("VendorId");
 
                     b.ToTable("Recruiters");
                 });
@@ -312,52 +392,20 @@ namespace SilvarBayAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("inviteS")
                         .HasColumnType("int")
                         .HasColumnName("InvitationStat");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
                     b.ToTable("UserInvitations");
-                });
-
-            modelBuilder.Entity("SilvarBayAPI.Models.UserModel", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContactNumebr")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GoogleVoiceNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("flagStat")
-                        .HasColumnType("int");
-
-                    b.Property<int>("userPosition")
-                        .HasColumnType("int");
-
-                    b.Property<int>("userRole")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Consultants");
                 });
 
             modelBuilder.Entity("SilvarBayAPI.Models.VendorModel", b =>
@@ -407,8 +455,8 @@ namespace SilvarBayAPI.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("VendorId")
                         .HasColumnType("int");
@@ -426,6 +474,19 @@ namespace SilvarBayAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("WorkSheetId");
+
+                    b.HasIndex("ClientId")
+                        .IsUnique();
+
+                    b.HasIndex("RecruiterId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.HasIndex("VendorId")
+                        .IsUnique();
 
                     b.ToTable("WorkSheets");
                 });
@@ -481,22 +542,114 @@ namespace SilvarBayAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SilvarBayAPI.Models.ClientModelk", b =>
+            modelBuilder.Entity("SilvarBayAPI.Models.Client_VendorModel", b =>
                 {
-                    b.HasOne("SilvarBayAPI.Models.BasicInfoModel", "ClientBasicInfo")
-                        .WithMany()
-                        .HasForeignKey("ClientBasicInfoId");
+                    b.HasOne("SilvarBayAPI.Models.ClientModel", "client")
+                        .WithMany("cvlist")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ClientBasicInfo");
+                    b.HasOne("SilvarBayAPI.Models.VendorModel", "vendor")
+                        .WithMany("cvlist")
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("client");
+
+                    b.Navigation("vendor");
                 });
 
-            modelBuilder.Entity("SilvarBayAPI.Models.Recruiter", b =>
+            modelBuilder.Entity("SilvarBayAPI.Models.ConsultantModel", b =>
                 {
-                    b.HasOne("SilvarBayAPI.Models.BasicInfoModel", "RecruiterBasicInfo")
-                        .WithMany()
-                        .HasForeignKey("RecruiterBasicInfoId");
+                    b.HasOne("SilvarBayAPI.Models.AppUser", "User")
+                        .WithOne("Consultant")
+                        .HasForeignKey("SilvarBayAPI.Models.ConsultantModel", "UserId");
 
-                    b.Navigation("RecruiterBasicInfo");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.RecruiterModel", b =>
+                {
+                    b.HasOne("SilvarBayAPI.Models.VendorModel", "Vendor")
+                        .WithMany("RecruiterList")
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Vendor");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.UserInvitationModel", b =>
+                {
+                    b.HasOne("SilvarBayAPI.Models.AppUser", "User")
+                        .WithOne("userinvitation")
+                        .HasForeignKey("SilvarBayAPI.Models.UserInvitationModel", "UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.WorkSheetModel", b =>
+                {
+                    b.HasOne("SilvarBayAPI.Models.ClientModel", "client")
+                        .WithOne("workSh")
+                        .HasForeignKey("SilvarBayAPI.Models.WorkSheetModel", "ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SilvarBayAPI.Models.RecruiterModel", "recruiter")
+                        .WithOne("workSh")
+                        .HasForeignKey("SilvarBayAPI.Models.WorkSheetModel", "RecruiterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SilvarBayAPI.Models.AppUser", "User")
+                        .WithOne("WorkSheet")
+                        .HasForeignKey("SilvarBayAPI.Models.WorkSheetModel", "UserId");
+
+                    b.HasOne("SilvarBayAPI.Models.VendorModel", "vendor")
+                        .WithOne("workSh")
+                        .HasForeignKey("SilvarBayAPI.Models.WorkSheetModel", "VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("client");
+
+                    b.Navigation("recruiter");
+
+                    b.Navigation("User");
+
+                    b.Navigation("vendor");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.AppUser", b =>
+                {
+                    b.Navigation("Consultant");
+
+                    b.Navigation("userinvitation");
+
+                    b.Navigation("WorkSheet");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.ClientModel", b =>
+                {
+                    b.Navigation("cvlist");
+
+                    b.Navigation("workSh");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.RecruiterModel", b =>
+                {
+                    b.Navigation("workSh");
+                });
+
+            modelBuilder.Entity("SilvarBayAPI.Models.VendorModel", b =>
+                {
+                    b.Navigation("cvlist");
+
+                    b.Navigation("RecruiterList");
+
+                    b.Navigation("workSh");
                 });
 #pragma warning restore 612, 618
         }

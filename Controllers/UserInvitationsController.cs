@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using SilvarBayAPI.Models;
 
@@ -13,23 +13,23 @@ namespace SilvarBayAPI.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserInvitationController : ControllerBase
+    public class UserInvitationsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public UserInvitationController(ApplicationDbContext context)
+        public UserInvitationsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserInvitation
+        // GET: api/UserInvitations
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserInvitationModel>>> GetUserInvitations()
         {
             return await _context.UserInvitations.ToListAsync();
         }
 
-        // GET: api/UserInvitation/5
+        // GET: api/UserInvitations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserInvitationModel>> GetUserInvitationModel(int id)
         {
@@ -43,7 +43,7 @@ namespace SilvarBayAPI.Controllers
             return userInvitationModel;
         }
 
-        // PUT: api/UserInvitation/5
+        // PUT: api/UserInvitations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUserInvitationModel(int id, UserInvitationModel userInvitationModel)
@@ -74,7 +74,7 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/UserInvitation
+        // POST: api/UserInvitations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<UserInvitationModel>> PostUserInvitationModel(UserInvitationModel userInvitationModel)
@@ -85,7 +85,7 @@ namespace SilvarBayAPI.Controllers
             return CreatedAtAction("GetUserInvitationModel", new { id = userInvitationModel.Id }, userInvitationModel);
         }
 
-        // DELETE: api/UserInvitation/5
+        // DELETE: api/UserInvitations/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserInvitationModel(int id)
         {
