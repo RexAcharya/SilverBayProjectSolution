@@ -13,47 +13,47 @@ namespace SilvarBayAPI.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class VendorsController : ControllerBase
+    public class WorkSheetController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public VendorsController(ApplicationDbContext context)
+        public WorkSheetController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Vendors
+        // GET: api/WorkSheet
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VendorModel>>> GetVendors()
+        public async Task<ActionResult<IEnumerable<WorkSheetModel>>> GetWorkSheets()
         {
-            return await _context.Vendors.ToListAsync();
+            return await _context.WorkSheets.ToListAsync();
         }
 
-        // GET: api/Vendors/5
+        // GET: api/WorkSheet/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<VendorModel>> GetVendorModel(int id)
+        public async Task<ActionResult<WorkSheetModel>> GetWorkSheetModel(int id)
         {
-            var vendorModel = await _context.Vendors.FindAsync(id);
+            var workSheetModel = await _context.WorkSheets.FindAsync(id);
 
-            if (vendorModel == null)
+            if (workSheetModel == null)
             {
                 return NotFound();
             }
 
-            return vendorModel;
+            return workSheetModel;
         }
 
-        // PUT: api/Vendors/5
+        // PUT: api/WorkSheet/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVendorModel(int id, VendorModel vendorModel)
+        public async Task<IActionResult> PutWorkSheetModel(int id, WorkSheetModel workSheetModel)
         {
-            if (id != vendorModel.VendorId)
+            if (id != workSheetModel.WorkSheetId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(vendorModel).State = EntityState.Modified;
+            _context.Entry(workSheetModel).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace SilvarBayAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VendorModelExists(id))
+                if (!WorkSheetModelExists(id))
                 {
                     return NotFound();
                 }
@@ -74,36 +74,36 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Vendors
+        // POST: api/WorkSheet
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<VendorModel>> PostVendorModel(VendorModel vendorModel)
+        public async Task<ActionResult<WorkSheetModel>> PostWorkSheetModel(WorkSheetModel workSheetModel)
         {
-            _context.Vendors.Add(vendorModel);
+            _context.WorkSheets.Add(workSheetModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVendorModel", new { id = vendorModel.VendorId }, vendorModel);
+            return CreatedAtAction("GetWorkSheetModel", new { id = workSheetModel.WorkSheetId }, workSheetModel);
         }
 
-        // DELETE: api/Vendors/5
+        // DELETE: api/WorkSheet/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVendorModel(int id)
+        public async Task<IActionResult> DeleteWorkSheetModel(int id)
         {
-            var vendorModel = await _context.Vendors.FindAsync(id);
-            if (vendorModel == null)
+            var workSheetModel = await _context.WorkSheets.FindAsync(id);
+            if (workSheetModel == null)
             {
                 return NotFound();
             }
 
-            _context.Vendors.Remove(vendorModel);
+            _context.WorkSheets.Remove(workSheetModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool VendorModelExists(int id)
+        private bool WorkSheetModelExists(int id)
         {
-            return _context.Vendors.Any(e => e.VendorId == id);
+            return _context.WorkSheets.Any(e => e.WorkSheetId == id);
         }
     }
 }

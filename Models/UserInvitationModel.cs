@@ -11,7 +11,12 @@ namespace SilvarBayAPI.Models
     public class UserInvitationModel
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
+
+
+        public virtual AspNetUser AUser { get; set; }
+
+
 
         [Required(ErrorMessage = "Email is required")]
         [Column(TypeName = "nvarchar(100)")]

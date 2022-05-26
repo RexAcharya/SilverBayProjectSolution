@@ -9,10 +9,5 @@ using System.Threading.Tasks;
 namespace SilvarBayAPI.Models
 {
     public enum Position { Developer, DevOps, QA, DataScience };
-    public class PositionModel
-    {
-        public int Id { get; set; }
-        public string Position { get; set; }
-
-    }
+   
 }

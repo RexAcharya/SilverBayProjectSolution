@@ -8,52 +8,53 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SilvarBayAPI.Models;
 
+
 namespace SilvarBayAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class VendorsController : ControllerBase
+    public class ClientsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public VendorsController(ApplicationDbContext context)
+        public ClientsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Vendors
+        // GET: api/Clients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VendorModel>>> GetVendors()
+        public async Task<ActionResult<IEnumerable<ClientModel>>> GetClients()
         {
-            return await _context.Vendors.ToListAsync();
+            return await _context.Clients.ToListAsync();
         }
 
-        // GET: api/Vendors/5
+        // GET: api/Clients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<VendorModel>> GetVendorModel(int id)
+        public async Task<ActionResult<ClientModel>> GetClientModelk(int id)
         {
-            var vendorModel = await _context.Vendors.FindAsync(id);
+            var clientModelk = await _context.Clients.FindAsync(id);
 
-            if (vendorModel == null)
+            if (clientModelk == null)
             {
                 return NotFound();
             }
 
-            return vendorModel;
+            return clientModelk;
         }
 
-        // PUT: api/Vendors/5
+        // PUT: api/Clients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVendorModel(int id, VendorModel vendorModel)
+        public async Task<IActionResult> PutClientModelk(int id, ClientModel clientModelk)
         {
-            if (id != vendorModel.VendorId)
+            if (id != clientModelk.ClientId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(vendorModel).State = EntityState.Modified;
+            _context.Entry(clientModelk).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +62,7 @@ namespace SilvarBayAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VendorModelExists(id))
+                if (!ClientModelkExists(id))
                 {
                     return NotFound();
                 }
@@ -74,36 +75,36 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Vendors
+        // POST: api/Clients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<VendorModel>> PostVendorModel(VendorModel vendorModel)
+        public async Task<ActionResult<ClientModel>> PostClientModelk(ClientModel clientModelk)
         {
-            _context.Vendors.Add(vendorModel);
+            _context.Clients.Add(clientModelk);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVendorModel", new { id = vendorModel.VendorId }, vendorModel);
+            return CreatedAtAction("GetClientModelk", new { id = clientModelk.ClientId }, clientModelk);
         }
 
-        // DELETE: api/Vendors/5
+        // DELETE: api/Clients/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVendorModel(int id)
+        public async Task<IActionResult> DeleteClientModelk(int id)
         {
-            var vendorModel = await _context.Vendors.FindAsync(id);
-            if (vendorModel == null)
+            var clientModelk = await _context.Clients.FindAsync(id);
+            if (clientModelk == null)
             {
                 return NotFound();
             }
 
-            _context.Vendors.Remove(vendorModel);
+            _context.Clients.Remove(clientModelk);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool VendorModelExists(int id)
+        private bool ClientModelkExists(int id)
         {
-            return _context.Vendors.Any(e => e.VendorId == id);
+            return _context.Clients.Any(e => e.ClientId == id);
         }
     }
 }

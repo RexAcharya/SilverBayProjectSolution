@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,50 +9,49 @@ using SilvarBayAPI.Models;
 
 namespace SilvarBayAPI.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class VendorsController : ControllerBase
+    public class RecruiterController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public VendorsController(ApplicationDbContext context)
+        public RecruiterController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Vendors
+        // GET: api/Recruiter
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VendorModel>>> GetVendors()
+        public async Task<ActionResult<IEnumerable<RecruiterModel>>> GetRecruiters()
         {
-            return await _context.Vendors.ToListAsync();
+            return await _context.Recruiters.ToListAsync();
         }
 
-        // GET: api/Vendors/5
+        // GET: api/Recruiter/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<VendorModel>> GetVendorModel(int id)
+        public async Task<ActionResult<RecruiterModel>> GetRecruiterModel(int id)
         {
-            var vendorModel = await _context.Vendors.FindAsync(id);
+            var recruiterModel = await _context.Recruiters.FindAsync(id);
 
-            if (vendorModel == null)
+            if (recruiterModel == null)
             {
                 return NotFound();
             }
 
-            return vendorModel;
+            return recruiterModel;
         }
 
-        // PUT: api/Vendors/5
+        // PUT: api/Recruiter/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVendorModel(int id, VendorModel vendorModel)
+        public async Task<IActionResult> PutRecruiterModel(int id, RecruiterModel recruiterModel)
         {
-            if (id != vendorModel.VendorId)
+            if (id != recruiterModel.RecruiterId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(vendorModel).State = EntityState.Modified;
+            _context.Entry(recruiterModel).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +59,7 @@ namespace SilvarBayAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VendorModelExists(id))
+                if (!RecruiterModelExists(id))
                 {
                     return NotFound();
                 }
@@ -74,36 +72,36 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Vendors
+        // POST: api/Recruiter
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<VendorModel>> PostVendorModel(VendorModel vendorModel)
+        public async Task<ActionResult<RecruiterModel>> PostRecruiterModel(RecruiterModel recruiterModel)
         {
-            _context.Vendors.Add(vendorModel);
+            _context.Recruiters.Add(recruiterModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVendorModel", new { id = vendorModel.VendorId }, vendorModel);
+            return CreatedAtAction("GetRecruiterModel", new { id = recruiterModel.RecruiterId }, recruiterModel);
         }
 
-        // DELETE: api/Vendors/5
+        // DELETE: api/Recruiter/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVendorModel(int id)
+        public async Task<IActionResult> DeleteRecruiterModel(int id)
         {
-            var vendorModel = await _context.Vendors.FindAsync(id);
-            if (vendorModel == null)
+            var recruiterModel = await _context.Recruiters.FindAsync(id);
+            if (recruiterModel == null)
             {
                 return NotFound();
             }
 
-            _context.Vendors.Remove(vendorModel);
+            _context.Recruiters.Remove(recruiterModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool VendorModelExists(int id)
+        private bool RecruiterModelExists(int id)
         {
-            return _context.Vendors.Any(e => e.VendorId == id);
+            return _context.Recruiters.Any(e => e.RecruiterId == id);
         }
     }
 }

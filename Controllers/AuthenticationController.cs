@@ -83,7 +83,8 @@ namespace SilvarBayAPI.Controllers
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
@@ -113,6 +114,7 @@ namespace SilvarBayAPI.Controllers
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username
+
             };
 
             var result = await userManager.CreateAsync(user, model.Password);

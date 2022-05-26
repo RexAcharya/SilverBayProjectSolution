@@ -13,47 +13,47 @@ namespace SilvarBayAPI.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class VendorsController : ControllerBase
+    public class ConsultantController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public VendorsController(ApplicationDbContext context)
+        public ConsultantController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Vendors
+        // GET: api/Consultant
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VendorModel>>> GetVendors()
+        public async Task<ActionResult<IEnumerable<ConsultantModel>>> GetConsultants()
         {
-            return await _context.Vendors.ToListAsync();
+            return await _context.Consultants.ToListAsync();
         }
 
-        // GET: api/Vendors/5
+        // GET: api/Consultant/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<VendorModel>> GetVendorModel(int id)
+        public async Task<ActionResult<ConsultantModel>> GetConsultantModel(string id)
         {
-            var vendorModel = await _context.Vendors.FindAsync(id);
+            var consultantModel = await _context.Consultants.FindAsync(id);
 
-            if (vendorModel == null)
+            if (consultantModel == null)
             {
                 return NotFound();
             }
 
-            return vendorModel;
+            return consultantModel;
         }
 
-        // PUT: api/Vendors/5
+        // PUT: api/Consultant/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVendorModel(int id, VendorModel vendorModel)
+        public async Task<IActionResult> PutConsultantModel(string id, ConsultantModel consultantModel)
         {
-            if (id != vendorModel.VendorId)
+            if (id != consultantModel.consultantId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(vendorModel).State = EntityState.Modified;
+            _context.Entry(consultantModel).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace SilvarBayAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VendorModelExists(id))
+                if (!ConsultantModelExists(id))
                 {
                     return NotFound();
                 }
@@ -74,36 +74,36 @@ namespace SilvarBayAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Vendors
+        // POST: api/Consultant
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<VendorModel>> PostVendorModel(VendorModel vendorModel)
+        public async Task<ActionResult<ConsultantModel>> PostConsultantModel(ConsultantModel consultantModel)
         {
-            _context.Vendors.Add(vendorModel);
+            _context.Consultants.Add(consultantModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVendorModel", new { id = vendorModel.VendorId }, vendorModel);
+            return CreatedAtAction("GetConsultantModel", new { id = consultantModel.consultantId }, consultantModel);
         }
 
-        // DELETE: api/Vendors/5
+        // DELETE: api/Consultant/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVendorModel(int id)
+        public async Task<IActionResult> DeleteConsultantModel(string id)
         {
-            var vendorModel = await _context.Vendors.FindAsync(id);
-            if (vendorModel == null)
+            var consultantModel = await _context.Consultants.FindAsync(id);
+            if (consultantModel == null)
             {
                 return NotFound();
             }
 
-            _context.Vendors.Remove(vendorModel);
+            _context.Consultants.Remove(consultantModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool VendorModelExists(int id)
+        private bool ConsultantModelExists(string id)
         {
-            return _context.Vendors.Any(e => e.VendorId == id);
+            return _context.Consultants.Any(e => e.consultantId == id);
         }
     }
 }

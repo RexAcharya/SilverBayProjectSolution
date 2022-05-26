@@ -7,17 +7,22 @@ using System.Threading.Tasks;
 
 namespace SilvarBayAPI.Models
 {
-    public class Recruiter
+    public class ClientModel 
     {
         [Key]
-        public int RecruiterId { get; set; }
-        /*public string Name { get; set; }
-        public string Location { get; set; }
-        public string EmailAddress { get; set; }
+        public int ClientId { get; set; }
 
-        public string ContactNumber { get; set; }*/
-        public BasicInfoModel RecruiterBasicInfo { get; set; }
-        [ForeignKey("VendorId")]
-        public string Vendor_ID { get; set; }
+        public string Name { get; set; }
+
+
+        public string Location { get; set; }
+
+        public string Address { get; set; }
+
+        public string EmailAddress { get; set; }
+        public string ContactNumber { get; set; }
+        public virtual List<Client_VendorModel> cvlist { get; set; }
+        public virtual WorkSheetModel workSh { get; set; }
+
     }
 }
