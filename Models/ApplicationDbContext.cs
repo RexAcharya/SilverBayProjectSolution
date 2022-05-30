@@ -10,7 +10,7 @@ using SilvarBayAPI.Models;
 
 namespace SilvarBayAPI.Models
 {
-    public partial class ApplicationDbContext : DbContext
+    public partial class ApplicationDbContext : IdentityDbContext<AspNetUser>//DbContext
     {
         public ApplicationDbContext()
         {
@@ -23,13 +23,13 @@ namespace SilvarBayAPI.Models
 
         /// <summary>
 
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        /*public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
-        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }*/
         /// </summary>
 
         public virtual DbSet<VendorModel> Vendors { get; set; }
@@ -51,7 +51,10 @@ namespace SilvarBayAPI.Models
         {
            /* builder.Entity<Recruiter>()
                 .Property<int>("VendorForeignKey");*/
-           builder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+           
+            base.OnModelCreating(builder);
+       
+        builder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
 
             builder.Entity<VendorModel>(entity =>
@@ -80,6 +83,7 @@ namespace SilvarBayAPI.Models
             //////
             builder.Entity<AspNetRole>(entity =>
             {
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
                     .IsUnique()
                     .HasFilter("([NormalizedName] IS NOT NULL)");
@@ -131,7 +135,7 @@ namespace SilvarBayAPI.Models
 
             builder.Entity<AspNetUserLogin>(entity =>
             {
-                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+                //entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
 
                 entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
 
@@ -142,11 +146,13 @@ namespace SilvarBayAPI.Models
                     .HasForeignKey(d => d.UserId);
             });
 
+            /*The INSERT statement conflicted with the FOREIGN KEY constraint "FK_AspNetUserRoles_AspNetRoles_RoleId"*/
             builder.Entity<AspNetUserRole>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.RoleId });
+                //entity.HasKey(e => new { e.UserId, e.RoleId });
 
                 entity.HasIndex(e => e.RoleId, "IX_AspNetUserRoles_RoleId");
+                
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.AspNetUserRoles)
@@ -159,11 +165,13 @@ namespace SilvarBayAPI.Models
 
             builder.Entity<AspNetUserToken>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+               // entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId);
+
+                
             });
 
            
@@ -175,7 +183,7 @@ namespace SilvarBayAPI.Models
                 .HasForeignKey("UserId");
 
             });
-            builder.Entity<ConsultantModel>(entity =>
+            /*builder.Entity<ConsultantModel>(entity =>
             {
                 entity.HasOne(d => d.AUser)
                 .WithOne(p => p.Consultant)
@@ -190,7 +198,7 @@ namespace SilvarBayAPI.Models
                 .WithOne(p=>p.userinvitation)
                 .HasForeignKey<AspNetUser>(d=>d.Id);
 
-            });
+            });*/
             //////
             /*base.OnModelCreating(builder);*/
             OnModelCreatingPartial(builder);

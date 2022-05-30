@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace SilvarBayAPI.Models
 {
-    public partial class AspNetUser
+    public partial class AspNetUser :IdentityUser
     {
         public AspNetUser()
         {
@@ -16,21 +17,21 @@ namespace SilvarBayAPI.Models
             WorkSheets = new HashSet<WorkSheetModel>();
         }
 
-        public string Id { get; set; }
-        public string UserName { get; set; }
-        public string NormalizedUserName { get; set; }
-        public string Email { get; set; }
-        public string NormalizedEmail { get; set; }
-        public bool EmailConfirmed { get; set; }
-        public string PasswordHash { get; set; }
-        public string SecurityStamp { get; set; }
-        public string ConcurrencyStamp { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool PhoneNumberConfirmed { get; set; }
-        public bool TwoFactorEnabled { get; set; }
-        public DateTimeOffset? LockoutEnd { get; set; }
-        public bool LockoutEnabled { get; set; }
-        public int AccessFailedCount { get; set; }
+        public override string Id { get; set; }
+        public override string UserName { get; set; }
+        public override string NormalizedUserName { get; set; }
+        public override string Email { get; set; }
+        public override string NormalizedEmail { get; set; }
+        public override bool EmailConfirmed { get; set; }
+        public override string PasswordHash { get; set; }
+        public override string SecurityStamp { get; set; }
+        public override string ConcurrencyStamp { get; set; }
+        public override string PhoneNumber { get; set; }
+        public override bool PhoneNumberConfirmed { get; set; }
+        public override bool TwoFactorEnabled { get; set; }
+        public override DateTimeOffset? LockoutEnd { get; set; }
+        public override bool LockoutEnabled { get; set; }
+        public override int AccessFailedCount { get; set; }
 
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }

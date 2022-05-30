@@ -42,7 +42,7 @@ namespace SilvarBayAPI
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("SQLConnection")));
 
-            services.AddIdentity<Authentication.ApplicationUser, IdentityRole>()
+            services.AddIdentity<AspNetUser,AspNetRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

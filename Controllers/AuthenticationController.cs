@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading.Tasks;   
 using SilvarBayAPI.Authentication;
 using SilvarBayAPI.Models;
 
@@ -19,12 +19,13 @@ namespace SilvarBayAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<AspNetUser> userManager;
+        private readonly RoleManager<AspNetRole> roleManager;
         private readonly IConfiguration _configuration;
+        
 
-        public AuthenticationController(UserManager<ApplicationUser> userManager, 
-            RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthenticationController(UserManager<AspNetUser> userManager, 
+            RoleManager<AspNetRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -79,7 +80,7 @@ namespace SilvarBayAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
             };
 
-            ApplicationUser user = new ApplicationUser()
+            AspNetUser user = new AspNetUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -94,6 +95,16 @@ namespace SilvarBayAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
 
+            if (!await roleManager.RoleExistsAsync(UserRoles.Consultant))
+            {
+
+                await roleManager.CreateAsync(new AspNetRole(UserRoles.Consultant));
+            }
+
+            if (await roleManager.RoleExistsAsync(UserRoles.Consultant))
+            {
+                await userManager.AddToRoleAsync(user, UserRoles.Consultant);
+            }
             return Ok(new Response { Status = "Success", Message = "User created successfully" });
         }
 
@@ -109,7 +120,7 @@ namespace SilvarBayAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
             };
 
-            ApplicationUser user = new ApplicationUser()
+            AspNetUser user = new AspNetUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -126,13 +137,9 @@ namespace SilvarBayAPI.Controllers
 
             if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
             {
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                await roleManager.CreateAsync(new AspNetRole(UserRoles.Admin));
             }
 
-            if (!await roleManager.RoleExistsAsync(UserRoles.Consultant))
-            {
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Consultant));
-            }
 
             if (await roleManager.RoleExistsAsync(UserRoles.Admin))
             {
@@ -155,7 +162,7 @@ namespace SilvarBayAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
             };
 
-            ApplicationUser user = new ApplicationUser()
+            AspNetUser user = new AspNetUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -168,20 +175,20 @@ namespace SilvarBayAPI.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
-
+/*
             if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
             {
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                await roleManager.CreateAsync(new AspNetRole(UserRoles.Admin));
             }
 
             if (!await roleManager.RoleExistsAsync(UserRoles.Consultant))
             {
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Consultant));
-            }
+                await roleManager.CreateAsync(new AspNetRole(UserRoles.Consultant));
+            }*/
 
             if(!await roleManager.RoleExistsAsync(UserRoles.SuperAdmin))
             {
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.SuperAdmin));
+                await roleManager.CreateAsync(new AspNetRole(UserRoles.SuperAdmin));
             }
 
             if (await roleManager.RoleExistsAsync(UserRoles.SuperAdmin))
