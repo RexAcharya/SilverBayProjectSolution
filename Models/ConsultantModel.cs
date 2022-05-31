@@ -17,8 +17,9 @@ namespace SilvarBayAPI.Models
 
 
 
-        /*[ForeignKey("AspUserID")]
-        public string AspUserID { get; set; }*/
+
+        public string AspUserID;
+        [ForeignKey("AspUserID")]
         public virtual AspNetUser AUser { get; set; }
 
         public string Address { get; set; }

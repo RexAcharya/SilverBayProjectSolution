@@ -42,7 +42,7 @@ namespace SilvarBayAPI
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("SQLConnection")));
 
-            services.AddIdentity<Authentication.ApplicationUser, IdentityRole>()
+            services.AddIdentity<AspNetUser,AspNetRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -67,11 +67,18 @@ namespace SilvarBayAPI
                 };
             });
 
+            services.AddCors();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ApplicationDbContext db)
         {
+            app.UseCors(options =>
+            options.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
